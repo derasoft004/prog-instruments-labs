@@ -6,8 +6,8 @@ import schedule
 import telebot
 import threading
 from telebot import TeleBot
+from telebot.types import ReplyKeyboardMarkup
 
-import tmp_previous_texts
 
 bot = TeleBot('6026455101:AAH1asLKyOZpfc3kSf105EYAsHmVo-g7c9c')
 listid = []
