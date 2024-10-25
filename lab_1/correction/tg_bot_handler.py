@@ -1,21 +1,6 @@
 import sys
 
-from telebot import TeleBot
-from telebot.types import ReplyKeyboardMarkup
-
-from config import TOKEN
 from additional_functions import *
-import texts
-
-bot = TeleBot(TOKEN)
-
-
-def send_message(message, message_text):
-    bot.send_message(message.chat.id, message_text)
-
-
-def send_message_wth_markup(message, message_text, markup):
-    bot.send_message(message.chat.id, message_text, reply_markup=markup)
 
 
 def list_inline_buttons0(inline_markup0):
@@ -98,16 +83,15 @@ def form_inline_markup_0_0(calldata: str): # на случай перестро�
 def form_inline_markup_2_0():
     inline_markup_2_0 = InlineKeyboardMarkup()
     inline_button_2_0_0 = InlineKeyboardButton(text='- Хочу записаться в клуб.',
-                                                             callback_data='inline_button_2_0_0')
+                                               callback_data='inline_button_2_0_0')
     inline_button_2_0_1 = InlineKeyboardButton(text='- Какими тренеры и какие виды тренировок '
-                                                                  'у вас есть?', callback_data='inline_button_2_0_1')
+                                               'у вас есть?', callback_data='inline_button_2_0_1')
     inline_button_2_0_2 = InlineKeyboardButton(text='- Какие у вас цены на тренировки?',
-                                                             callback_data='inline_button_2_0_2')
+                                               callback_data='inline_button_2_0_2')
     inline_button_2_0_3 = InlineKeyboardButton(text='- Какие у вас графики работы клуба?',
-                                                             callback_data='inline_button_2_0_3')
+                                               callback_data='inline_button_2_0_3')
     inline_button_2_0_4 = InlineKeyboardButton(text=' Как связаться с вами, у меня есть '
-                                                                  'вопрос или проблема?',
-                                                             callback_data='inline_button_2_0_4')
+                                               'вопрос или проблема?', callback_data='inline_button_2_0_4')
     inline_markup_2_0.add(inline_button_2_0_0)
     inline_markup_2_0.add(inline_button_2_0_1)
     inline_markup_2_0.add(inline_button_2_0_2)
@@ -120,36 +104,37 @@ def form_inline_markup_2_0():
 def return_answer(call):
     global tmps, flag_pay, list_classes
     return_message = ' '
+    data = json_loader('texts.json')
     if call.data == 'inline_button4_0':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         send_message_wth_markup(call.message, "Совершите операцию в личном чате с администратором", adm_link())
     elif call.data == 'inline_button4_1':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.gymnastik + '\n\nРасписание занятий\n' + make_day([2], [0, 1, 2, 3, 4], [5, 1, 5, 1, 5])
+        return_message += data['gymnastik'] + '\n\nРасписание занятий\n' + make_day([2], [0, 1, 2, 3, 4], [5, 1, 5, 1, 5])
     elif call.data == 'inline_button4_2':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.dzudo + '\n\nРасписание занятий\n' + make_day([0, 0, 1, 1], [0, 3, 2, 4],
+        return_message += data['dzudo'] + '\n\nРасписание занятий\n' + make_day([0, 0, 1, 1], [0, 3, 2, 4],
                                                                               [11, 11, 11, 11])
     elif call.data == 'inline_button4_3':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.gymnastik + '\n\nРасписание занятий\n' + make_day([3], [2, 4], [11, 11])
+        return_message += data['gymnastik'] + '\n\nРасписание занятий\n' + make_day([3], [2, 4], [11, 11])
     elif call.data == 'inline_button4_4':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.fitnes + '\n\nРасписание занятий\n' + make_day([4], [0, 1, 2, 4, 5], [4, 14, 15, 14, 4])
+        return_message += data['fitnes'] + '\n\nРасписание занятий\n' + make_day([4], [0, 1, 2, 4, 5], [4, 14, 15, 14, 4])
     elif call.data == 'inline_button4_5':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.dzudo + '\n\nРасписание занятий\n' + make_day([0, 0, 0, 1, 1, 1], [0, 3, 5, 0, 2, 4],
+        return_message += data['dzudo'] + '\n\nРасписание занятий\n' + make_day([0, 0, 0, 1, 1, 1], [0, 3, 5, 0, 2, 4],
                                                                               [13, 13, 2, 0, 0, 0])
     elif call.data == 'inline_button4_6':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.dzudo + '\n\nРасписание занятий\n' + make_day([0, 0, 0, 1, 1, 1], [1, 3, 5, 0, 2, 4],
+        return_message += data['dzudo'] + '\n\nРасписание занятий\n' + make_day([0, 0, 0, 1, 1, 1], [1, 3, 5, 0, 2, 4],
                                                                               [6, 6, 2, 8, 8, 8])
     elif call.data == 'inline_button4_7':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.lkf4_6 + texts.lkf
+        return_message += data['lkf4_6'] + data['lkf']
     elif call.data == 'inline_button4_8':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += texts.lkf7_10 + texts.lkf
+        return_message += data['lkf7_10'] + data['lkf']
     elif call.data == 'inline_button4_9':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         send_message_wth_markup(call.message, "Совершите операцию в личном чате с администратором", adm_link())
@@ -208,15 +193,15 @@ def return_answer(call):
             break
     # todo ======================================== КНОПКИ "Часто задаваемые вопросы" ==================================
     if call.data == 'inline_button_2_0_0':
-        send_message(call.message, texts.faq1)
+        send_message(call.message, data['faq1'])
     elif call.data == 'inline_button_2_0_1':
-        send_message(call.message, texts.faq2)
+        send_message(call.message, data['faq2'])
     elif call.data == 'inline_button_2_0_2':
-        send_message(call.message, texts.faq3)
+        send_message(call.message, data['faq3'])
     elif call.data == 'inline_button_2_0_3':
-        send_message(call.message, texts.faq4)
+        send_message(call.message, data['faq4'])
     elif call.data == 'inline_button_2_0_4':
-        send_message(call.message, texts.faq5)
+        send_message(call.message, data['faq5'])
     elif call.data == "exit":
         bot.delete_message(call.message.chat.id, call.message.message_id)
         print('до выхода ', list_classes)
@@ -238,15 +223,19 @@ def return_answer(call):
 
 
 def run():
+    data = json_loader('texts.json')
+    s_buttons_main = data['main_buttons']
+
     @bot.message_handler(commands=['start', 'command'])
     def start_message(message):
+        global listid
         if message.chat.id not in listid: listid.append(message.chat.id)
         print(listid, 'commands')
         markup = ReplyKeyboardMarkup(resize_keyboard=True)  # one_time_keyboard=True
-        markup.add(s_buttons_main[0], s_buttons_main[1])
-        markup.add(s_buttons_main[2], s_buttons_main[3])
-        markup.add(s_buttons_main[4])
-        send_message_wth_markup(message, texts.hello, markup)
+        markup.add(s_buttons_main['main_button1'], s_buttons_main['main_button2'])
+        markup.add(s_buttons_main['main_button3'], s_buttons_main['main_button4'])
+        markup.add(s_buttons_main['main_button5'])
+        send_message_wth_markup(message, data['hello'], markup)
 
 
     @bot.callback_query_handler(func=lambda call: True)
@@ -255,18 +244,16 @@ def run():
         print(listid, 'callback')
         try:
             bot.send_message(call.message.chat.id, return_answer(call))
-        except Exception:
+        except Exception as e:
             e = sys.exc_info()[1]
             print(e.args[0])
 
 
     @bot.message_handler(content_types=['text'])
     def main_message_text(message):
-        global listmessagetext, listmessagetime
-        global flag_pay, list_classes
-        global listid
+        global flag_pay
         if message.chat.id not in listid: listid.append(message.chat.id)
-        print(listid, 'text')
+        # print(listid, 'text')
         inline_markup0 = InlineKeyboardMarkup()
         list_inline_buttons0(inline_markup0)
         inline_markup4 = InlineKeyboardMarkup()
@@ -274,16 +261,16 @@ def run():
         pay_text = pay_markup(list_classes)
         text = message.text
 
-        if text == main_button1:
+        if text == s_buttons_main['main_button1']:
             send_message_wth_markup(message, 'Выберите вид занятия', inline_markup0)  # кнопка "записаться на занятие"
-        elif text == main_button2:
-            send_message(message, texts.message_2_main)  # кнопка "о клубе"
-        elif text == main_button3:
+        elif text == s_buttons_main['main_button2']:
+            send_message(message, data['message_2_main'])  # кнопка "о клубе"
+        elif text == s_buttons_main['main_button3']:
             send_message_wth_markup(message, f'Часто задаваемые вопросы. Какой вопрос интересует Вас?\n',
                                     form_inline_markup_2_0())  # кнопка "часто задаваемые вопросы"
-        elif text == main_button4:
+        elif text == s_buttons_main['main_button4']:
             send_message_wth_markup(message, pay_text[0], pay_text[1])  # кнопка оплатить занятие
-        elif text == main_button5:
+        elif text == s_buttons_main['main_button5']:
             send_message_wth_markup(message, 'Доступные виды занятий', inline_markup4)  # кнопка "информация о..."
         if flag_pay:
             flag_pay = False

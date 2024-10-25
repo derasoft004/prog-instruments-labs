@@ -1,19 +1,35 @@
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from datetime import datetime
 import json
+import schedule
+import time
+
+from telebot import TeleBot
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+
+from config import TOKEN
+
+bot = TeleBot(TOKEN)
 
 
 def json_loader(filename: str) -> dict:
     with open(filename, "r") as texts_json:
         return json.load(texts_json)
 
-listmessagetext = ["_", ';']
-listmessagetime = [0, 0]
 
 flag_pay = False
+s_buttons_d = []
+list_classes = []
 
 
-def counter(s):
+def send_message(message, message_text):
+    bot.send_message(message.chat.id, message_text)
+
+
+def send_message_wth_markup(message, message_text, markup):
+    bot.send_message(message.chat.id, message_text, reply_markup=markup)
+
+
+def counter(s: list):
     count = 1
     tmp1 = s[0]
     for i in range(1, len(s)):
@@ -21,39 +37,48 @@ def counter(s):
     return count
 
 
-def make_day(trainer_list, days_list, time_list):
-    return_message = ''
-    return_message += '\n'
-    trainers = False
-    if len(trainer_list) > 1: trainers = True
-    if len(trainer_list) == 1: return_message += f'Тренер: {trainer[trainer_list[0]]}\n'
-    if not trainers:
+def make_day(trainer_list: list, days_list: list, time_list: list):
+    return_message = '\n'
+    trainers_flag = False
+    data = json_loader('texts.json')
+    days = data['days']
+    times = data['times']
+    trainer = data['trainers']
+    if len(trainer_list) > 1:
+        trainers_flag = True
+    if len(trainer_list) == 1:
+        return_message += f'Тренер: {trainer[f"trainer{trainer_list[0]}"]}\n'
+    if not trainers_flag:
         for i in range(len(days_list)):
-            return_message += f'{week[days_list[i]]} {time_s[time_list[i]]} '  # trainer[trainer_list[i]]
+            return_message += f'{days[f"day{days_list[i] + 1}"]} {times[f"time{time_list[i] + 1}"]} '  # trainer[trainer_list[i]]
             if i != len(days_list) - 1: return_message += f',\n'
     else:
         count = counter(trainer_list)
-        return_message += f'Тренер: {trainer[trainer_list[0]]}\n'
+        return_message += f'Тренер: {trainer[f"trainer{trainer_list[0] + 1}"]}\n'
         for i in range(count):
-            return_message += f'{week[days_list[i]]} {time_s[time_list[i]]} '  # trainer[trainer_list[i]]
+            return_message += f'{days[f"day{days_list[i] + 1}"]} {times[f"time{time_list[i] + 1}"]} '  # trainer[trainer_list[i]]
             if i != len(days_list) - 1: return_message += f',\n'
-        return_message += f'Тренер: {trainer[trainer_list[count]]}\n'
+        return_message += f'Тренер: {trainer[f"trainer{trainer_list[count - 1]}"]}\n'
         for i in range(count, len(trainer_list)):
-            return_message += f'{week[days_list[i]]} {time_s[time_list[i]]} '  # trainer[trainer_list[i]]
+            return_message += f'{days[f"day{days_list[i] + 1}"]} {times[f"time{time_list[i] + 1}"]} '  # trainer[trainer_list[i]]
             if i != len(days_list) - 1: return_message += f',\n'
     return return_message
 
 
-def make_day_buttons(days_list, time_list, type_class):
+def make_day_buttons(days_list: list, time_list: list, type_class: int):
     global s_buttons_d
+    data = json_loader('texts.json')
+    days = data['days']
+    times = data['times']
+    types_classes = data['types_classes']
     stmp = []
     keyboard_button_day = InlineKeyboardMarkup()
     for i in range(len(days_list)):
-        stmp.append(f'{week[days_list[i]]} {time_s[time_list[i]]} ')
-        keyboard_button_day.add(InlineKeyboardButton(text=f'{week[days_list[i]]} {time_s[time_list[i]]} ',
+        stmp.append(f'{days[f"day{days_list[i] + 1}"]} {times[f"time{days_list[i] + 1}"]} ')
+        keyboard_button_day.add(InlineKeyboardButton(text=f'{days[f"day{days_list[i] + 1}"]} {times[f"time{time_list[i] + 1}"]} ',
                                                      callback_data=f'day_button_{str(i)}'))
     s_buttons_d = stmp
-    return_message = f'{types_classes[type_class]}\n ' # {week[days_list[i]]} {time[time_list[i]]}
+    return_message = f'{types_classes[f"types_classes{type_class + 1}"]}\n ' # {week[days_list[i]]} {time[time_list[i]]}
     return return_message, keyboard_button_day
 
 tmps = make_day_buttons([0], [0], 0) # переменная записывающая в себя тмпшную категорию
@@ -68,7 +93,7 @@ def adm_link():
     return InlineKeyboardMarkup().add(InlineKeyboardButton("Администратор ",
                                       "t.me/ch_chrissy"))
 
-def pay_markup(list_classes):
+def pay_markup(list_classes: list):
     return_message = 'Ваша запись на: \n'
     murk = InlineKeyboardMarkup()
     butn = InlineKeyboardButton(text="Оплатить", callback_data="pay")
@@ -77,6 +102,10 @@ def pay_markup(list_classes):
         return_message += str(list_classes[i])
     return return_message, murk
 
+
+listmessagetext = ["_", ';']
+listmessagetime = [0, 0]
+listid = []
 
 def dotime():
     time_now = str(str(datetime.now()).split(' ')[1][:5])
@@ -90,62 +119,3 @@ def sh():
     while True:
         schedule.run_pending()
         time.sleep(1)
-
-def run():
-    @bot.message_handler(commands=['start', 'command'])
-    def start_message(message):
-        global listid
-        if message.chat.id not in listid: listid.append(message.chat.id)
-        print(listid, 'commands')
-        markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)  # one_time_keyboard=True
-        markup.add(s_buttons_main[0], s_buttons_main[1])
-        markup.add(s_buttons_main[2], s_buttons_main[3])
-        markup.add(s_buttons_main[4])
-        send_message_wth_markup(message, texts.hello, markup)
-
-
-    @bot.callback_query_handler(func=lambda call: True)
-    def main_messages_callback(call):
-        global listid
-        if call.message.chat.id not in listid: listid.append(call.message.chat.id)
-        print(listid, 'callback')
-        try:
-            bot.send_message(call.message.chat.id, return_answer(call))
-        except Exception:
-            e = sys.exc_info()[1]
-            print(e.args[0])
-
-
-    @bot.message_handler(content_types=['text'])
-    def main_message_text(message):
-        global listmessagetext, listmessagetime
-        global flag_pay, list_classes
-        global listid
-        if message.chat.id not in listid: listid.append(message.chat.id)
-        print(listid, 'text')
-        inline_markup0 = telebot.types.InlineKeyboardMarkup()
-        list_inline_buttons0(inline_markup0)
-        inline_markup4 = telebot.types.InlineKeyboardMarkup()
-        list_inline_buttons4(inline_markup4)
-        pay_text = pay_markup(list_classes)
-        text = message.text
-
-        if text == main_button1:
-            send_message_wth_markup(message, 'Выберите вид занятия', inline_markup0)  # кнопка "записаться на занятие"
-        elif text == main_button2:
-            send_message(message, texts.message_2_main)  # кнопка "о клубе"
-        elif text == main_button3:
-            send_message_wth_markup(message, f'Часто задаваемые вопросы. Какой вопрос интересует Вас?\n',
-                                    form_inline_markup_2_0())  # кнопка "часто задаваемые вопросы"
-        elif text == main_button4:
-            send_message_wth_markup(message, pay_text[0], pay_text[1])  # кнопка оплатить занятие
-        elif text == main_button5:
-            send_message_wth_markup(message, 'Доступные виды занятий', inline_markup4)  # кнопка "информация о..."
-        if flag_pay:
-            flag_pay = False
-            send_message(message, "Подтвердите операцию и все готово.")
-
-        if text.split(";")[0] == 'new_post':
-            part_time = text.split(";")[1]
-            part_text = text.split(";")[2]
-            listmessagetext[0], listmessagetime[0] = part_text, part_time
