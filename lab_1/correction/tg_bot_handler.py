@@ -4,76 +4,26 @@ from additional_functions import *
 
 
 def list_inline_buttons0(inline_markup0):
-    inline_button0_0 = InlineKeyboardButton(text='Пробная неделя',
-                                                          callback_data='inline_button0_0')
-    inline_button0_1 = InlineKeyboardButton(text='Гимнастика 7-10 лет 3000р',
-                                                          callback_data='inline_button0_1')
-    inline_button0_2 = InlineKeyboardButton(text='Дзюдо 4-6 лет 2500р',
-                                                          callback_data='inline_button0_2')
-    inline_button0_3 = InlineKeyboardButton(text='Гимнастика 4-6 лет 2500р',
-                                                          callback_data='inline_button0_3')
-    inline_button0_4 = InlineKeyboardButton(text='Фитнес для взрослых 2500р',
-                                                          callback_data='inline_button0_4')
-    inline_button0_5 = InlineKeyboardButton(text='Дзюдо 7-10 лет 3000р',
-                                                          callback_data='inline_button0_5')
-    inline_button0_6 = InlineKeyboardButton(text='Дзюдо 10-12 лет 3000р',
-                                                          callback_data='inline_button0_6')
-    inline_button0_7 = InlineKeyboardButton(text='ЛФК 4-6 лет 2500р/час',
-                                                          callback_data='inline_button0_7')
-    inline_button0_8 = InlineKeyboardButton(text='ЛФК 7-10 лет 2500р/час',
-                                                          callback_data='inline_button0_8')
-    inline_button0_9 = InlineKeyboardButton(text='Индивидуальные тренировки 1000р/час',
-                                                          callback_data='inline_button0_9')
-
-    inline_markup0.add(inline_button0_0)
-    inline_markup0.add(inline_button0_1)
-    inline_markup0.add(inline_button0_2)
-    inline_markup0.add(inline_button0_3)
-    inline_markup0.add(inline_button0_4)
-    inline_markup0.add(inline_button0_5)
-    inline_markup0.add(inline_button0_6)
-    inline_markup0.add(inline_button0_7)
-    inline_markup0.add(inline_button0_8)
-    inline_markup0.add(inline_button0_9)
+    data = json_loader('texts.json')
+    texts = data['list_inline_buttons0']
+    for index in range(len(texts)):
+        inline_button = InlineKeyboardButton(text=texts[f'inline_button0_{index}'],
+                                            callback_data=f'inline_button0_{index}')
+        inline_markup0.add(inline_button)
 
 
 def list_inline_buttons4(inline_markup4):
-    inline_button4_0 = InlineKeyboardButton(text='Пробная неделя',
-                                                          callback_data='inline_button4_0')
-    inline_button4_1 = InlineKeyboardButton(text='Гимнастика 7-10 лет 3000р',
-                                                          callback_data='inline_button4_1')
-    inline_button4_2 = InlineKeyboardButton(text='Дзюдо 4-6 лет 2500р',
-                                                          callback_data='inline_button4_2')
-    inline_button4_3 = InlineKeyboardButton(text='Гимнастика 4-6 лет 2500р',
-                                                          callback_data='inline_button4_3')
-    inline_button4_4 = InlineKeyboardButton(text='Фитнес для взрослых 2500р',
-                                                          callback_data='inline_button4_4')
-    inline_button4_5 = InlineKeyboardButton(text='Дзюдо 7-10 лет 3000р',
-                                                          callback_data='inline_button4_5')
-    inline_button4_6 = InlineKeyboardButton(text='Дзюдо 10-12 лет 3000р',
-                                                          callback_data='inline_button4_6')
-    inline_button4_7 = InlineKeyboardButton(text='ЛФК 4-6 лет 2500р/час',
-                                                          callback_data='inline_button4_7')
-    inline_button4_8 = InlineKeyboardButton(text='ЛФК 7-10 лет 2500р/час',
-                                                          callback_data='inline_button4_8')
-    inline_button4_9 = InlineKeyboardButton(text='Индивидуальные тренировки 1000р/час',
-                                                          callback_data='inline_button4_9')
-    inline_markup4.add(inline_button4_0)
-    inline_markup4.add(inline_button4_1)
-    inline_markup4.add(inline_button4_2)
-    inline_markup4.add(inline_button4_3)
-    inline_markup4.add(inline_button4_4)
-    inline_markup4.add(inline_button4_5)
-    inline_markup4.add(inline_button4_6)
-    inline_markup4.add(inline_button4_7)
-    inline_markup4.add(inline_button4_8)
-    inline_markup4.add(inline_button4_9)
+    data = json_loader('texts.json')
+    texts = data['list_inline_buttons4']
+    for index in range(len(texts)):
+        inline_button = InlineKeyboardButton(text=texts[f'inline_button4_{index}'],
+                                             callback_data=f'inline_button4_{index}')
+        inline_markup4.add(inline_button)
 
 
-def form_inline_markup_0_0(calldata: str): # на случай перестройки
+def form_inline_markup_0_0():
     inline_markup_0_0 = InlineKeyboardMarkup()
-    inline_button_0_0_0 = InlineKeyboardButton(text='Подтвердить запись', callback_data="accept") # pay -
-                                                                                                                # оплата
+    inline_button_0_0_0 = InlineKeyboardButton(text='Подтвердить запись', callback_data="accept")  # pay - оплата
     inline_button_0_0_1 = InlineKeyboardButton(text='Отмена', callback_data="exit")
     inline_markup_0_0.add(inline_button_0_0_0)
     inline_markup_0_0.add(inline_button_0_0_1)
@@ -81,27 +31,19 @@ def form_inline_markup_0_0(calldata: str): # на случай перестро�
 
 
 def form_inline_markup_2_0():
+    data = json_loader('texts.json')
+    texts = data['form_inline_markup_2_0']
     inline_markup_2_0 = InlineKeyboardMarkup()
-    inline_button_2_0_0 = InlineKeyboardButton(text='- Хочу записаться в клуб.',
-                                               callback_data='inline_button_2_0_0')
-    inline_button_2_0_1 = InlineKeyboardButton(text='- Какими тренеры и какие виды тренировок '
-                                               'у вас есть?', callback_data='inline_button_2_0_1')
-    inline_button_2_0_2 = InlineKeyboardButton(text='- Какие у вас цены на тренировки?',
-                                               callback_data='inline_button_2_0_2')
-    inline_button_2_0_3 = InlineKeyboardButton(text='- Какие у вас графики работы клуба?',
-                                               callback_data='inline_button_2_0_3')
-    inline_button_2_0_4 = InlineKeyboardButton(text=' Как связаться с вами, у меня есть '
-                                               'вопрос или проблема?', callback_data='inline_button_2_0_4')
-    inline_markup_2_0.add(inline_button_2_0_0)
-    inline_markup_2_0.add(inline_button_2_0_1)
-    inline_markup_2_0.add(inline_button_2_0_2)
-    inline_markup_2_0.add(inline_button_2_0_3)
-    inline_markup_2_0.add(inline_button_2_0_4)
+    for index in range(len(texts)):
+        inline_button = InlineKeyboardButton(text=texts[f'inline_button_2_0_{index}'],
+                                             callback_data=f'inline_button_2_0_{index}')
+        inline_markup_2_0.add(inline_button)
 
     return inline_markup_2_0
 
 
 def return_answer(call):
+    print(call.data)
     global tmps, flag_pay, list_classes
     return_message = ' '
     data = json_loader('texts.json')
@@ -110,25 +52,27 @@ def return_answer(call):
         send_message_wth_markup(call.message, "Совершите операцию в личном чате с администратором", adm_link())
     elif call.data == 'inline_button4_1':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += data['gymnastik'] + '\n\nРасписание занятий\n' + make_day([2], [0, 1, 2, 3, 4], [5, 1, 5, 1, 5])
+        return_message += data['gymnastik'] + '\n\nРасписание занятий\n' + make_day([2], [0, 1, 2, 3, 4],
+                                                                                    [5, 1, 5, 1, 5])
     elif call.data == 'inline_button4_2':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         return_message += data['dzudo'] + '\n\nРасписание занятий\n' + make_day([0, 0, 1, 1], [0, 3, 2, 4],
-                                                                              [11, 11, 11, 11])
+                                                                                [11, 11, 11, 11])
     elif call.data == 'inline_button4_3':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         return_message += data['gymnastik'] + '\n\nРасписание занятий\n' + make_day([3], [2, 4], [11, 11])
     elif call.data == 'inline_button4_4':
         bot.delete_message(call.message.chat.id, call.message.message_id)
-        return_message += data['fitnes'] + '\n\nРасписание занятий\n' + make_day([4], [0, 1, 2, 4, 5], [4, 14, 15, 14, 4])
+        return_message += data['fitnes'] + '\n\nРасписание занятий\n' + make_day([4], [0, 1, 2, 4, 5],
+                                                                                 [4, 14, 15, 14, 4])
     elif call.data == 'inline_button4_5':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         return_message += data['dzudo'] + '\n\nРасписание занятий\n' + make_day([0, 0, 0, 1, 1, 1], [0, 3, 5, 0, 2, 4],
-                                                                              [13, 13, 2, 0, 0, 0])
+                                                                                [13, 13, 2, 0, 0, 0])
     elif call.data == 'inline_button4_6':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         return_message += data['dzudo'] + '\n\nРасписание занятий\n' + make_day([0, 0, 0, 1, 1, 1], [1, 3, 5, 0, 2, 4],
-                                                                              [6, 6, 2, 8, 8, 8])
+                                                                                [6, 6, 2, 8, 8, 8])
     elif call.data == 'inline_button4_7':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         return_message += data['lkf4_6'] + data['lkf']
@@ -141,7 +85,6 @@ def return_answer(call):
     elif call.data == '':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         return_message += ''
-    # todo ======================================== КНОПКИ "Записаться на занятие" =====================================
     elif call.data == 'inline_button0_0':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         send_message_wth_markup(call.message, "Совершите операцию в личном чате с администратором", adm_link())
@@ -183,15 +126,13 @@ def return_answer(call):
     elif call.data == 'inline_button0_9':
         bot.delete_message(call.message.chat.id, call.message.message_id)
         send_message_wth_markup(call.message, "Совершите операцию в личном чате с администратором", adm_link())
-    # todo ======================================== КНОПКИ выбранных дней ==============================================
     for i in range(6):
         if call.data == f'day_button_{str(i)}':
             bot.delete_message(call.message.chat.id, call.message.message_id)
             send_message_wth_markup(call.message, f'Подтвердите запись на {tmps[0]}\n{app_mdb(i)}',
-                                    form_inline_markup_0_0(f'day_button_{str(i)}'))
+                                    form_inline_markup_0_0())
             list_classes.append(f'{tmps[0]}{app_mdb(i)}\n')
             break
-    # todo ======================================== КНОПКИ "Часто задаваемые вопросы" ==================================
     if call.data == 'inline_button_2_0_0':
         send_message(call.message, data['faq1'])
     elif call.data == 'inline_button_2_0_1':
@@ -205,7 +146,7 @@ def return_answer(call):
     elif call.data == "exit":
         bot.delete_message(call.message.chat.id, call.message.message_id)
         print('до выхода ', list_classes)
-        list_classes.remove(list_classes[len(list_classes)-1])
+        list_classes.remove(list_classes[len(list_classes) - 1])
         send_message(call.message, "Вы прервали операцию.")
         print('выход ', list_classes)
     elif call.data == "adm_link":
@@ -228,18 +169,18 @@ def run():
 
     @bot.message_handler(commands=['start', 'command'])
     def start_message(message):
-        global listid
         if message.chat.id not in listid: listid.append(message.chat.id)
         print(listid, 'commands')
         markup = ReplyKeyboardMarkup(resize_keyboard=True)  # one_time_keyboard=True
-        markup.add(s_buttons_main['main_button1'], s_buttons_main['main_button2'])
-        markup.add(s_buttons_main['main_button3'], s_buttons_main['main_button4'])
+        for index in range(1, 3):
+            markup.add(s_buttons_main[f'main_button{index * 2 - 1}'], s_buttons_main[f'main_button{index * 2}'])
         markup.add(s_buttons_main['main_button5'])
         send_message_wth_markup(message, data['hello'], markup)
 
 
     @bot.callback_query_handler(func=lambda call: True)
     def main_messages_callback(call):
+        print(call.data)
         if call.message.chat.id not in listid: listid.append(call.message.chat.id)
         print(listid, 'callback')
         try:
@@ -247,7 +188,6 @@ def run():
         except Exception as e:
             e = sys.exc_info()[1]
             print(e.args[0])
-
 
     @bot.message_handler(content_types=['text'])
     def main_message_text(message):
