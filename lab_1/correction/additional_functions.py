@@ -114,7 +114,7 @@ def dotime():
             bot.send_message(listid[i], listmessagetext[0])
 
 
-def sh():
+def schedule_handler():
     schedule.every(60).seconds.do(dotime)
     while True:
         schedule.run_pending()

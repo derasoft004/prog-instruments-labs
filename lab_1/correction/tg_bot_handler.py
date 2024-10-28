@@ -8,7 +8,7 @@ def list_inline_buttons0(inline_markup0):
     texts = data['list_inline_buttons0']
     for index in range(len(texts)):
         inline_button = InlineKeyboardButton(text=texts[f'inline_button0_{index}'],
-                                            callback_data=f'inline_button0_{index}')
+                                             callback_data=f'inline_button0_{index}')
         inline_markup0.add(inline_button)
 
 

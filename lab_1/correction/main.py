@@ -7,7 +7,7 @@ def main():
     e2 = threading.Event()
 
     t1 = threading.Thread(target=run)
-    t2 = threading.Thread(target=sh)
+    t2 = threading.Thread(target=schedule_handler)
 
     t1.start()
     t2.start()
