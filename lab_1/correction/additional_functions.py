@@ -1,12 +1,14 @@
-from datetime import datetime
 import json
 import schedule
 import time
 
+from datetime import datetime
+from typing import Tuple
 from telebot import TeleBot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 
 from config import TOKEN
+
 
 bot = TeleBot(TOKEN)
 
@@ -21,15 +23,15 @@ s_buttons_d = []
 list_classes = []
 
 
-def send_message(message, message_text):
+def send_message(message, message_text) -> None:
     bot.send_message(message.chat.id, message_text)
 
 
-def send_message_wth_markup(message, message_text, markup):
+def send_message_wth_markup(message, message_text: str, markup: InlineKeyboardMarkup | ReplyKeyboardMarkup) -> None:
     bot.send_message(message.chat.id, message_text, reply_markup=markup)
 
 
-def counter(s: list):
+def counter(s: list) -> int:
     count = 1
     tmp1 = s[0]
     for i in range(1, len(s)):
@@ -37,7 +39,7 @@ def counter(s: list):
     return count
 
 
-def make_day(trainer_list: list, days_list: list, time_list: list):
+def make_day(trainer_list: list, days_list: list, time_list: list) -> str:
     return_message = '\n'
     trainers_flag = False
     data = json_loader('texts.json')
@@ -65,7 +67,7 @@ def make_day(trainer_list: list, days_list: list, time_list: list):
     return return_message
 
 
-def make_day_buttons(days_list: list, time_list: list, type_class: int):
+def make_day_buttons(days_list: list, time_list: list, type_class: int) -> Tuple:
     global s_buttons_d
     data = json_loader('texts.json')
     days = data['days']
@@ -81,19 +83,19 @@ def make_day_buttons(days_list: list, time_list: list, type_class: int):
     return_message = f'{types_classes[f"types_classes{type_class + 1}"]}\n ' # {week[days_list[i]]} {time[time_list[i]]}
     return return_message, keyboard_button_day
 
-tmps = make_day_buttons([0], [0], 0) # переменная записывающая в себя тмпшную категорию
+
+tmps = make_day_buttons([0], [0], 0) # переменная записывающая в себя временную категорию
 
 
-def app_mdb(index):
-    global s_buttons_d
+def app_mdb(index: int) -> str:
     return s_buttons_d[index]
 
 
-def adm_link():
-    return InlineKeyboardMarkup().add(InlineKeyboardButton("Администратор ",
-                                      "t.me/ch_chrissy"))
+def adm_link() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup().add(InlineKeyboardButton("Администратор ", "t.me/ch_chrissy"))
 
-def pay_markup(list_classes: list):
+
+def pay_markup(list_classes: list) -> Tuple:
     return_message = 'Ваша запись на: \n'
     murk = InlineKeyboardMarkup()
     butn = InlineKeyboardButton(text="Оплатить", callback_data="pay")
@@ -107,14 +109,15 @@ listmessagetext = ["_", ';']
 listmessagetime = [0, 0]
 listid = []
 
-def dotime():
+
+def dotime() -> None:
     time_now = str(str(datetime.now()).split(' ')[1][:5])
     if time_now == listmessagetime[0]:
         for i in range(len(listid)):
             bot.send_message(listid[i], listmessagetext[0])
 
 
-def schedule_handler():
+def schedule_handler() -> None:
     schedule.every(60).seconds.do(dotime)
     while True:
         schedule.run_pending()

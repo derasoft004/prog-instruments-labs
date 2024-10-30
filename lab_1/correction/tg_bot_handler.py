@@ -3,7 +3,7 @@ import sys
 from additional_functions import *
 
 
-def list_inline_buttons0(inline_markup0):
+def list_inline_buttons0(inline_markup0: InlineKeyboardMarkup) -> None:
     data = json_loader('texts.json')
     texts = data['list_inline_buttons0']
     for index in range(len(texts)):
@@ -12,7 +12,7 @@ def list_inline_buttons0(inline_markup0):
         inline_markup0.add(inline_button)
 
 
-def list_inline_buttons4(inline_markup4):
+def list_inline_buttons4(inline_markup4: InlineKeyboardMarkup) -> None:
     data = json_loader('texts.json')
     texts = data['list_inline_buttons4']
     for index in range(len(texts)):
@@ -21,7 +21,7 @@ def list_inline_buttons4(inline_markup4):
         inline_markup4.add(inline_button)
 
 
-def form_inline_markup_0_0():
+def form_inline_markup_0_0() -> InlineKeyboardMarkup:
     inline_markup_0_0 = InlineKeyboardMarkup()
     inline_button_0_0_0 = InlineKeyboardButton(text='Подтвердить запись', callback_data="accept")  # pay - оплата
     inline_button_0_0_1 = InlineKeyboardButton(text='Отмена', callback_data="exit")
@@ -30,7 +30,7 @@ def form_inline_markup_0_0():
     return inline_markup_0_0
 
 
-def form_inline_markup_2_0():
+def form_inline_markup_2_0() -> InlineKeyboardMarkup:
     data = json_loader('texts.json')
     texts = data['form_inline_markup_2_0']
     inline_markup_2_0 = InlineKeyboardMarkup()
@@ -42,7 +42,7 @@ def form_inline_markup_2_0():
     return inline_markup_2_0
 
 
-def return_answer(call):
+def return_answer(call) -> None:
     print(call.data)
     global tmps, flag_pay, list_classes
     return_message = ' '
@@ -163,7 +163,7 @@ def return_answer(call):
         print('подтверждение', list_classes)
 
 
-def run():
+def run() -> None:
     data = json_loader('texts.json')
     s_buttons_main = data['main_buttons']
 
