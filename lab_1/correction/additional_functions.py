@@ -8,7 +8,7 @@ from telebot import TeleBot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 
 from config import TOKEN
-
+from constants import LISTMESSAGETEXT
 
 
 bot = TeleBot(TOKEN)
@@ -106,16 +106,16 @@ def pay_markup(list_classes: list) -> Tuple:
     return return_message, murk
 
 
-listmessagetext = ["_", ';']
-listmessagetime = [0, 0]
-listid = []
+
+LISTMESSAGETIME = [0, 0]
+LISTID = []
 
 
 def dotime() -> None:
     time_now = str(str(datetime.now()).split(' ')[1][:5])
-    if time_now == listmessagetime[0]:
-        for i in range(len(listid)):
-            bot.send_message(listid[i], listmessagetext[0])
+    if time_now == LISTMESSAGETIME[0]:
+        for i in range(len(LISTID)):
+            bot.send_message(LISTID[i], LISTMESSAGETEXT[0])
 
 
 def schedule_handler() -> None:
