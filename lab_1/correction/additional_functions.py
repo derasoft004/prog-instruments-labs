@@ -1,4 +1,3 @@
-import json
 import time
 import schedule
 from datetime import datetime
@@ -12,12 +11,6 @@ from constants import LISTMESSAGETEXT
 
 
 bot = TeleBot(TOKEN)
-
-
-def json_loader(filename: str) -> dict:
-    with open(filename, "r") as texts_json:
-        return json.load(texts_json)
-
 
 flag_pay = False
 s_buttons_d = []
