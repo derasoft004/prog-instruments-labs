@@ -179,7 +179,8 @@ def run() -> None:
 
     @bot.message_handler(commands=['start', 'command'])
     def start_message(message):
-        if message.chat.id not in LISTID: LISTID.append(message.chat.id)
+        if message.chat.id not in LISTID:
+            LISTID.append(message.chat.id)
         print(LISTID, 'commands')
         markup = ReplyKeyboardMarkup(resize_keyboard=True)  # one_time_keyboard=True
         for index in range(1, 3):
@@ -191,7 +192,8 @@ def run() -> None:
     @bot.callback_query_handler(func=lambda call: True)
     def main_messages_callback(call):
         print(call.data)
-        if call.message.chat.id not in LISTID: LISTID.append(call.message.chat.id)
+        if call.message.chat.id not in LISTID:
+            LISTID.append(call.message.chat.id)
         print(LISTID, 'callback')
         try:
             bot.send_message(call.message.chat.id, return_answer(call))
@@ -202,7 +204,8 @@ def run() -> None:
     @bot.message_handler(content_types=['text'])
     def main_message_text(message):
         global flag_pay
-        if message.chat.id not in LISTID: LISTID.append(message.chat.id)
+        if message.chat.id not in LISTID:
+            LISTID.append(message.chat.id)
         inline_markup0 = InlineKeyboardMarkup()
         list_inline_buttons0(inline_markup0)
         inline_markup4 = InlineKeyboardMarkup()

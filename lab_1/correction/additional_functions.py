@@ -36,7 +36,8 @@ def counter(s: list) -> int:
     count = 1
     tmp1 = s[0]
     for i in range(1, len(s)):
-        if s[i] == tmp1: count += 1
+        if s[i] == tmp1:
+            count += 1
     return count
 
 
@@ -54,17 +55,20 @@ def make_day(trainer_list: list, days_list: list, time_list: list) -> str:
     if not trainers_flag:
         for i in range(len(days_list)):
             return_message += f'{days[f"day{days_list[i] + 1}"]} {times[f"time{time_list[i] + 1}"]} '  # trainer[trainer_list[i]]
-            if i != len(days_list) - 1: return_message += f',\n'
+            if i != len(days_list) - 1:
+                return_message += f',\n'
     else:
         count = counter(trainer_list)
         return_message += f'Тренер: {trainer[f"trainer{trainer_list[0] + 1}"]}\n'
         for i in range(count):
             return_message += f'{days[f"day{days_list[i] + 1}"]} {times[f"time{time_list[i] + 1}"]} '  # trainer[trainer_list[i]]
-            if i != len(days_list) - 1: return_message += f',\n'
+            if i != len(days_list) - 1:
+                return_message += f',\n'
         return_message += f'Тренер: {trainer[f"trainer{trainer_list[count - 1]}"]}\n'
         for i in range(count, len(trainer_list)):
             return_message += f'{days[f"day{days_list[i] + 1}"]} {times[f"time{time_list[i] + 1}"]} '  # trainer[trainer_list[i]]
-            if i != len(days_list) - 1: return_message += f',\n'
+            if i != len(days_list) - 1:
+                return_message += f',\n'
     return return_message
 
 
