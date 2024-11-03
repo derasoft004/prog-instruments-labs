@@ -17,7 +17,6 @@ from additional_functions import (
 )
 
 
-
 def list_inline_buttons0(inline_markup0: InlineKeyboardMarkup) -> None:
     data = json_loader('texts.json')
     texts = data['list_inline_buttons0']

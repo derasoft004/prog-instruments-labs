@@ -1,5 +1,7 @@
-from tg_bot_handler import *
 import threading
+
+from additional_functions import bot, schedule_handler
+from tg_bot_handler import run
 
 
 def main():
