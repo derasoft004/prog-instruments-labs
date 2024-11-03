@@ -1,6 +1,21 @@
 import sys
 
-from additional_functions import *
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+
+from additional_functions import (
+    bot,
+    json_loader,
+    send_message_wth_markup,
+    make_day,
+    adm_link,
+    make_day_buttons,
+    app_mdb,
+    send_message,
+    listid,
+    pay_markup,
+    listmessagetime,
+)
+
 
 
 def list_inline_buttons0(inline_markup0: InlineKeyboardMarkup) -> None:
