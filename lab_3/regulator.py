@@ -1,6 +1,7 @@
 import csv
 import json
 from typing import List
+import re
 
 import chardet
 
@@ -26,9 +27,8 @@ def get_data_from_csv(file_name: str) -> List:
 
     with open(file_name, 'r', encoding=encoding) as file:
         reader = csv.reader(file)
-        for string in reader:
-            data_lst.append(string)
-
+        for row in reader:
+            data_lst.append(''.join(row))
     return data_lst
 
 
@@ -48,3 +48,34 @@ def load_regular_expressions(file_name: str) -> dict:
         data_dict = json.load(file)
 
     return data_dict
+
+
+def match_expressions_and_data(expressions: dict, data: list) -> List:
+    """
+
+    :param expressions:
+    :param data:
+    :return:
+    """
+    categories = data[0].replace("\"", '').split(';')
+    nonvalid_strings = []
+    for row_index, row in enumerate(data[1:]):
+        normalised_row = row.replace("\"", '').split(';')
+        valid = True
+        for index, category in enumerate(categories):
+            match = re.fullmatch(expressions[category], normalised_row[index])
+            if not match:
+                # print(category, '\n', expressions[category], normalised_row[index], type(match))
+                valid = False
+                break
+            # else:
+            #     print(category, '\n', expressions[category], normalised_row[index], f'== {match[0]}' if match else type(match))
+        if not valid:
+            nonvalid_strings.append(row_index)
+
+    return nonvalid_strings
+
+
+expressions = load_regular_expressions('expressions.json')
+data = get_data_from_csv('72.csv')
+print(match_expressions_and_data(expressions, data))
