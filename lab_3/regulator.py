@@ -52,6 +52,7 @@ def load_regular_expressions(file_name: str) -> dict:
 
 def match_expressions_and_data(expressions: dict, data: list) -> List:
     """
+    The function matching expressions with data
 
     :param expressions:
     :param data:
@@ -65,17 +66,9 @@ def match_expressions_and_data(expressions: dict, data: list) -> List:
         for index, category in enumerate(categories):
             match = re.fullmatch(expressions[category], normalised_row[index])
             if not match:
-                # print(category, '\n', expressions[category], normalised_row[index], type(match))
                 valid = False
                 break
-            # else:
-            #     print(category, '\n', expressions[category], normalised_row[index], f'== {match[0]}' if match else type(match))
         if not valid:
             nonvalid_strings.append(row_index)
 
     return nonvalid_strings
-
-
-expressions = load_regular_expressions('expressions.json')
-data = get_data_from_csv('72.csv')
-print(match_expressions_and_data(expressions, data))

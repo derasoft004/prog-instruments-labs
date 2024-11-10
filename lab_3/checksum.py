@@ -2,9 +2,9 @@ import json
 import hashlib
 from typing import List
 
-"""
-В этом модуле обитают функции, необходимые для автоматизированной проверки результатов ваших трудов.
-"""
+from config import EXPRESSIONS, DATA, RESULT, VARIANT
+from wrappers import context_manager_wrapper
+from regulator import load_regular_expressions, get_data_from_csv, match_expressions_and_data
 
 
 def calculate_checksum(row_numbers: List[int]) -> str:
@@ -26,6 +26,7 @@ def calculate_checksum(row_numbers: List[int]) -> str:
     return hashlib.md5(json.dumps(row_numbers).encode('utf-8')).hexdigest()
 
 
+@context_manager_wrapper
 def serialize_result(variant: int, checksum: str) -> None:
     """
     Метод для сериализации результатов лабораторной пишите сами.
@@ -35,12 +36,17 @@ def serialize_result(variant: int, checksum: str) -> None:
     ВНИМАНИЕ, ВАЖНО! На json натравлен github action, который проверяет корректность выполнения лабораторной.
     Так что не перемещайте, не переименовывайте и не изменяйте его структуру, если планируете успешно сдать лабу.
 
-    :param variant: номер вашего варианта
+    :param variant: номер варианта
     :param checksum: контрольная сумма, вычисленная через calculate_checksum()
     """
-    pass
+    writing_result = {'variant': variant, 'checksum': checksum}
+    with open(RESULT, 'w') as file:
+        json.dump(writing_result, file)
 
 
 if __name__ == "__main__":
-    print(calculate_checksum([1, 2, 3]))
-    print(calculate_checksum([3, 2, 1]))
+    expressions = load_regular_expressions(EXPRESSIONS)
+    data = get_data_from_csv(DATA)
+    result = match_expressions_and_data(expressions, data)
+    checksum = calculate_checksum(result)
+    serialize_result(VARIANT, checksum)

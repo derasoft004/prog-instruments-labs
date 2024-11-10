@@ -8,8 +8,8 @@ def context_manager_wrapper(func):
         try:
             return func(*args, **kwargs)
         except FileNotFoundError as e:
-            logging.error(f'File not exists; {e}')
-        except Exception:
-            logging.error("It's impossible to open file.")
+            logging.error(f"File not exists; {e}")
+        except Exception as e:
+            logging.error(f"It's impossible to open file; {e}")
 
     return wrapper
