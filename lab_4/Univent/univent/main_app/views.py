@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
+import logging
 
 from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SubmitApplicationForm, SignForPosterForm
 from .models import Poster, User, Application
@@ -20,6 +21,9 @@ class Posters(ListView):
     model = Poster
     template_name = 'posters.html'
     context_object_name = 'posters'
+    all_posters = Poster.objects.all()
+    if not len(all_posters):
+        logging.warning("'Posters' doesn't have posts, 'Posters' is empty.")
     extra_context = {
         'posters': Poster.objects.all(),
     }
@@ -61,8 +65,8 @@ def poster_redactor(request):
     if request.method == 'POST':
         form = RegisterPosterForm(request.POST)
         try:
+            user = User.objects.get(nickname=request.COOKIES['nickname'])
             if form.is_valid():
-                user = User.objects.get(nickname=request.COOKIES['nickname'])
                 user.created_events.create(title=form.cleaned_data['title'],
                                    place=form.cleaned_data['place'],
                                    price=form.cleaned_data['price'],
@@ -74,6 +78,7 @@ def poster_redactor(request):
                 user.save()
                 return redirect('posters')
             else:
+                logging.warning(f"User '{user}' tried create event with invalid params.")
                 raise InvalidException
         except:
             form.add_error(None, 'Не удалось создать обьявление')
@@ -86,13 +91,11 @@ def poster_redactor(request):
 
 @logger_info_join_page
 def submit_application(request):
-    pass
     # todo - страница с отправлением заявки модераторам
     if request.method == 'POST':
         form = SubmitApplicationForm(request.POST)
+        user = User.objects.get(nickname=request.COOKIES['nickname'])
         if form.is_valid():
-            # try:
-                user = User.objects.get(nickname=request.COOKIES['nickname'])
                 application = Application(
                     sender=user,
                     title=form.cleaned_data['title'],
@@ -101,8 +104,8 @@ def submit_application(request):
                 )
                 application.save()
                 return redirect('personal_account')
-            # except:
-            #     form.add_error(None, 'Не удалось оставить заявку')
+        else:
+            logging.warning(f"User '{user}' tried submit invalid application.")
     else:
         form = SubmitApplicationForm()
     data = {'form': form}
@@ -129,6 +132,8 @@ def registration_page(request):
                 return rsp
             except:
                 form.add_error(None, 'Пользователь с таким ником уже существует')
+        else:
+            logging.warning("User tried to register with invalid parameters.")
     else:
         form = RegisterUserForm()
     data = {'form': form}
@@ -144,6 +149,7 @@ def login_page(request):
                 return redirect('registration_page')
             elif User.objects.filter(nickname=form.cleaned_data['nickname'])[0].password \
                     != form.cleaned_data['password']:
+                logging.warning("User tried to login with invalid password.")
                 form.add_error(None, 'Неправильно указан пароль')
             else:
                 try:
@@ -153,6 +159,8 @@ def login_page(request):
                     rsp = redirect('index')
                     rsp.set_cookie('nickname', form.cleaned_data['nickname'])
                     return rsp
+        else:
+            logging.warning("User tried to login with invalid parameters.")
 
     else:
         form = LoginUserForm()
