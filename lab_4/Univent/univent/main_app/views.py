@@ -5,19 +5,21 @@ import logging
 from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SubmitApplicationForm, SignForPosterForm
 from .models import Poster, User, Application
 from .personal_exceptions import InvalidException
-from logger_handlers import logger_info_join_page
+
+logging.basicConfig(level=logging.INFO, filename="main_app_views.log", filemode="a",
+                    format="%(asctime)s %(levelname)s %(message)s")
 
 
-@logger_info_join_page
 def index(request):
+    logging.info("User requested (GET) index page")
     data = {'posters': Poster.objects.all()}
     return render(request, 'index.html', context=data)
 
 
-@logger_info_join_page
 class Posters(ListView):
     # data = {'posters': Poster.objects.all()}
     # return render(request, 'posters.html', context=data)
+    logging.info("User requested (GET) Posters page")
     model = Poster
     template_name = 'posters.html'
     context_object_name = 'posters'
@@ -29,23 +31,24 @@ class Posters(ListView):
     }
 
 
-@logger_info_join_page
 def poster(request, post_slug):
     post = get_object_or_404(Poster, slug=post_slug)
     if request.method == 'POST':
+        logging.info("User requested (POST) poster page")
         form = SignForPosterForm(request.POST)
         if form.is_valid():
             user = User.objects.get(nickname=request.COOKIES['nickname'])
             post.subscribers.add(user)
             return redirect('personal_account')
     else:
+        logging.info("User requested (GET) poster page")
         form = SignForPosterForm()
     context = {'post': post, 'form': form}
     return render(request, 'poster.html', context=context)
 
 
-@logger_info_join_page
 def personal_account(request):
+    logging.info("User requested (GET) personal_account page")
     try:
         user = User.objects.get(nickname=request.COOKIES['nickname'])
         applications = [application for application in Application.objects.filter(sender=user)]
@@ -60,9 +63,9 @@ def personal_account(request):
     return render(request, 'personal_account.html', context=user_data)
 
 
-@logger_info_join_page
 def poster_redactor(request):
     if request.method == 'POST':
+        logging.info("User requested (POST) poster_redactor page")
         form = RegisterPosterForm(request.POST)
         try:
             user = User.objects.get(nickname=request.COOKIES['nickname'])
@@ -84,15 +87,16 @@ def poster_redactor(request):
             form.add_error(None, 'Не удалось создать обьявление')
 
     else:
+        logging.info("User requested (GET) poster_redactor page")
         form = RegisterPosterForm()
     data = {'form': form}
     return render(request, 'poster_redactor.html', context=data)
 
 
-@logger_info_join_page
 def submit_application(request):
     # todo - страница с отправлением заявки модераторам
     if request.method == 'POST':
+        logging.info("User requested (POST) submit_application page")
         form = SubmitApplicationForm(request.POST)
         user = User.objects.get(nickname=request.COOKIES['nickname'])
         if form.is_valid():
@@ -107,14 +111,15 @@ def submit_application(request):
         else:
             logging.warning(f"User '{user}' tried submit invalid application.")
     else:
+        logging.info("User requested (GET) submit_application page")
         form = SubmitApplicationForm()
     data = {'form': form}
     return render(request, 'submit_application.html', context=data)
 
 
-@logger_info_join_page
 def registration_page(request):
     if request.method == 'POST':
+        logging.info("User requested (POST) registration_page page")
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             try:
@@ -135,12 +140,12 @@ def registration_page(request):
         else:
             logging.warning("User tried to register with invalid parameters.")
     else:
+        logging.info("User requested (GET) registration_page page")
         form = RegisterUserForm()
     data = {'form': form}
     return render(request, 'registration_page.html', context=data)
 
 
-@logger_info_join_page
 def login_page(request):
     if request.method == 'POST':
         form = LoginUserForm(request.POST)
