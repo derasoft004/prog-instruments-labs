@@ -4,13 +4,16 @@ from django.views.generic import ListView
 from .forms import LoginUserForm, RegisterUserForm, RegisterPosterForm, SubmitApplicationForm, SignForPosterForm
 from .models import Poster, User, Application
 from .personal_exceptions import InvalidException
+from logger_handlers import logger_info_join_page
 
 
+@logger_info_join_page
 def index(request):
     data = {'posters': Poster.objects.all()}
     return render(request, 'index.html', context=data)
 
 
+@logger_info_join_page
 class Posters(ListView):
     # data = {'posters': Poster.objects.all()}
     # return render(request, 'posters.html', context=data)
@@ -22,6 +25,7 @@ class Posters(ListView):
     }
 
 
+@logger_info_join_page
 def poster(request, post_slug):
     post = get_object_or_404(Poster, slug=post_slug)
     if request.method == 'POST':
@@ -36,6 +40,7 @@ def poster(request, post_slug):
     return render(request, 'poster.html', context=context)
 
 
+@logger_info_join_page
 def personal_account(request):
     try:
         user = User.objects.get(nickname=request.COOKIES['nickname'])
@@ -51,6 +56,7 @@ def personal_account(request):
     return render(request, 'personal_account.html', context=user_data)
 
 
+@logger_info_join_page
 def poster_redactor(request):
     if request.method == 'POST':
         form = RegisterPosterForm(request.POST)
@@ -78,6 +84,7 @@ def poster_redactor(request):
     return render(request, 'poster_redactor.html', context=data)
 
 
+@logger_info_join_page
 def submit_application(request):
     pass
     # todo - страница с отправлением заявки модераторам
@@ -102,6 +109,7 @@ def submit_application(request):
     return render(request, 'submit_application.html', context=data)
 
 
+@logger_info_join_page
 def registration_page(request):
     if request.method == 'POST':
         form = RegisterUserForm(request.POST)
@@ -127,6 +135,7 @@ def registration_page(request):
     return render(request, 'registration_page.html', context=data)
 
 
+@logger_info_join_page
 def login_page(request):
     if request.method == 'POST':
         form = LoginUserForm(request.POST)
@@ -144,7 +153,6 @@ def login_page(request):
                     rsp = redirect('index')
                     rsp.set_cookie('nickname', form.cleaned_data['nickname'])
                     return rsp
-
 
     else:
         form = LoginUserForm()
