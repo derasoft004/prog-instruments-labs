@@ -34,12 +34,17 @@ class Posters(ListView):
 def poster(request, post_slug):
     post = get_object_or_404(Poster, slug=post_slug)
     if request.method == 'POST':
-        logging.info("User requested (POST) poster page")
-        form = SignForPosterForm(request.POST)
-        if form.is_valid():
-            user = User.objects.get(nickname=request.COOKIES['nickname'])
-            post.subscribers.add(user)
-            return redirect('personal_account')
+        try:
+            logging.info("User requested (POST) poster page")
+            form = SignForPosterForm(request.POST)
+            if form.is_valid():
+                user = User.objects.get(nickname=request.COOKIES['nickname'])
+                post.subscribers.add(user)
+                logging.info(f"User '{user}' successfully followed to post.")
+                return redirect('personal_account')
+        except:
+            logging.error("User isn't registered yet.")
+            return redirect('registration_page')
     else:
         logging.info("User requested (GET) poster page")
         form = SignForPosterForm()
@@ -58,7 +63,9 @@ def personal_account(request):
             'applications': applications,
             'poster_subscribers': Poster.objects.filter(subscribers__nickname=request.COOKIES['nickname']),
         }
+        logging.info(f"User '{user}' successfully come to personal account.")
     except:
+        logging.warning(f"User tried visit personal account without login.")
         return redirect('login_page')
     return render(request, 'personal_account.html', context=user_data)
 
@@ -79,11 +86,13 @@ def poster_redactor(request):
                                    time_event=form.cleaned_data['time_event'])
 
                 user.save()
+                logging.info(f"User '{user}' was register a post successfully.")
                 return redirect('posters')
             else:
                 logging.warning(f"User '{user}' tried create event with invalid params.")
                 raise InvalidException
         except:
+            logging.error(f"User '{user}' failed to create a post.")
             form.add_error(None, 'Не удалось создать обьявление')
 
     else:
@@ -107,6 +116,7 @@ def submit_application(request):
                     call_time=form.cleaned_data['call_time']
                 )
                 application.save()
+                logging.info(f"Application users '{user}' was submitted successfully.")
                 return redirect('personal_account')
         else:
             logging.warning(f"User '{user}' tried submit invalid application.")
@@ -132,10 +142,12 @@ def registration_page(request):
                             age=form.cleaned_data['age'],
                             hobby=form.cleaned_data['hobby'])
                 user.save()
+                logging.info(f"User '{user}' was register successfully.")
                 rsp = redirect('personal_account')
                 rsp.set_cookie('nickname', form.cleaned_data['nickname'])
                 return rsp
             except:
+                logging.warning("User tried to register using existing nickname.")
                 form.add_error(None, 'Пользователь с таким ником уже существует')
         else:
             logging.warning("User tried to register with invalid parameters.")
@@ -148,9 +160,11 @@ def registration_page(request):
 
 def login_page(request):
     if request.method == 'POST':
+        logging.info("User requested (POST) login_page page")
         form = LoginUserForm(request.POST)
         if form.is_valid():
             if not User.objects.filter(nickname=form.cleaned_data['nickname']):
+                logging.info(f"User \'{form.cleaned_data['nickname']}\' is\'t registered.")
                 return redirect('registration_page')
             elif User.objects.filter(nickname=form.cleaned_data['nickname'])[0].password \
                     != form.cleaned_data['password']:
@@ -158,9 +172,11 @@ def login_page(request):
                 form.add_error(None, 'Неправильно указан пароль')
             else:
                 try:
-                    User.objects.get(nickname=request.COOKIES['nickname'])
+                    user = User.objects.get(nickname=request.COOKIES['nickname'])
+                    logging.info(f'User {user} successfully login.')
                     return redirect('personal_account')
                 except:
+                    logging.error(f'User {user} couldn\'t login.')
                     rsp = redirect('index')
                     rsp.set_cookie('nickname', form.cleaned_data['nickname'])
                     return rsp
@@ -168,5 +184,6 @@ def login_page(request):
             logging.warning("User tried to login with invalid parameters.")
 
     else:
+        logging.info("User requested (GET) login_page page")
         form = LoginUserForm()
     return render(request, 'login_page.html', context={'form': form})
