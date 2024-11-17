@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+				<!-- Main -->
+					<div id="main" class="alt">
+
+						<!-- One -->
+							<section id="one">
+								<div class="inner">
+									<header class="major">
+										<h1>{{ user.nickname }}</h1>
+									</header>
+									<span class="image main"><img src="{% static "images/pic11.jpg" %}" alt="" /></span>
+									<div style="display: flex; justify-content: space-between; width: 100%;">
+										<div style="flex: 1; text-align: left;">
+											<p>Имя: {{ user.name }}</p>
+											<p>Фамилия: {{ user.surname }}</p>
+										</div>
+										<div style="flex: 1; text-align: right;">
+											<p>Возраст: {{ user.age }} лет</p>
+											<p>Хобби: {{ user.hobby }}</p>
+										</div>
+									</div>
+									<p>
+										<h4 style="font-size: 25px;">Созданные мероприятия:</h4>
+											{% for event in created_events %}
+											<ul style="display: flex; justify-content: space-between; width: 100%; list-style-type: none; padding: 0;">
+												<div style="display: flex; flex-direction: column; text-align: left; ">
+													<li style="text-align:left;">Мероприятие: {{ event.title }}</li>
+													<li style="text-align:left;">Место: {{ event.place }}</li>
+												</div>
+												<div style="display: flex; flex-direction: column; text-align:right;">
+													<li>Время: {{ event.time_event }}</li>
+													<li>Цена: {{ event.price }} руб.</li>
+												</div>
+											</ul>
+									<style>
+										li {
+											font-size: 25px;
+										}
+										p {
+											font-size: 27px;
+										}
+									</style>
+										{% endfor %}
+									</p>
+									<p>
+										<h4 style="font-size: 25px;">Ваши заявки:</h4>
+											{% for application in applications %}
+											<el>
+												<li>Заявка: {{ application.title }}</li>
+												<li>Описание заявки: {{ application.description }}</li>
+												<li>Удобное время: {{ application.call_time }}</li>
+											</el>
+											{% endfor %}
+									</p>
+									<p>
+									<h4 style="font-size: 25px;">Иду на:</h4>
+									{% for event in poster_subscribers %}
+											<ul style="display: flex; justify-content: space-between; width: 100%; list-style-type: none; padding: 0;">
+												<div style="display: flex; flex-direction: column; text-align: left; ">
+													<li style="text-align:left;">Мероприятие: {{ event.title }}</li>
+													<li style="text-align:left;">Место: {{ event.place }}</li>
+												</div>
+												<div style="display: flex; flex-direction: column; text-align:right;">
+													<li>Время: {{ event.time_event }}</li>
+													<li>Цена: {{ event.price }} руб.</li>
+												</div>
+											</ul>
+									<style>
+										li {
+											font-size: 25px;
+										}
+										p {
+											font-size: 27px;
+										}
+									</style>
+									{% endfor %}
+									</p>
+									<h1 style="display:block;margin-top: 2%;"><a href="{% url 'poster_redactor' %}">Создать мероприятие</a></h1>
+								</div>
+								<div>
+
+								</div>
+							</section>
+
+					</div>
+{% endblock body%}
+

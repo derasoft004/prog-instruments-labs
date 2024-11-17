@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<h1 style="text-align: center; font-size: 54px; margin: 3% 0;">UNIVENT</h1>
+    <div class="main_description">
+        <p>Платформа организатор любимых мероприятий, сообщество для тех, кто не готов тратить свое время на диване и ищет куда отправиться или как приятнее организовать любой праздник.</p>
+		<div class="row">
+			<div class="col-6 col-12-small">
+				<h4>Создайте свое мероприятие!</h4>
+				<p style="font-size: 27px; text-align: left;"> Есть идея как круто провести выходные? Давно хочешь собраться с друзьями и организовать нечто грандиозное? Отправляй заявку, мы свяжемся с тобой в назначенное время. </p>
+			</div>
+			<div class="col-6 col-12-small">
+				<h4 style="text-align: right;">Посетите уникальную тусовку!</h4>
+				<p style="font-size: 27px; text-align: right;">Надоели клубы, побывал уже во всех кафе и ресторанах, хочется разнообразить жизнь? сотни тусовок и культурных мероприятий для спокойного и улетного отдыха ждут тебя в нашей афише!</p>
+			</div>
+		</div>
+    	<img src="{% static 'images/11767t.jpg' %}" class="projectx_img" style="margin-top: 35px;">
+
+	</div>
+	<style>
+        .link {
+            display: inline-block; /* Позволяет применять отступы и тени */
+            margin: 1% 0; /* Отступы сверху и снизу по 2% */
+            margin-left: 15%; /* Сдвиг слева на 15% */
+            font-size: 30px; /* Размер шрифта 30 пикселей */
+            text-decoration: none; /* Убирает подчеркивание */
+            color: white; /* Цвет текста */
+            transition: text-shadow 0.3s; /* Плавный переход для тени */
+            transition: color 0.4s, text-shadow 0.4s;
+            transition: font-size 0.4s, font-size 0.4s;
+        }
+
+        .link:hover {
+            font-size: 33px;
+            color: #bbcff0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Тень при наведении */
+        }
+</style>
+
+{% endblock body%}

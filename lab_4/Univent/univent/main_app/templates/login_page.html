@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<h3 style="display:block;margin-left: 15%;margin-top: 2%;margin-bottom: 2%; margin-right: 15%;">Войти</h3>
+<div  style="display:block;margin-left: 15%; margin-right: 15%;">
+    <form action="" method="post">
+        {% csrf_token %}
+
+            <span>{{ form.as_p }}</span>
+            <p><button type="submit">Войти</button></p>
+
+    </form>
+    <a class="redirect_reg" href="{% url 'registration_page' %}">Еще нет аккаунта? Зарегистрируйтесь сейчас!</a>
+</div>
+
+{% endblock body%}

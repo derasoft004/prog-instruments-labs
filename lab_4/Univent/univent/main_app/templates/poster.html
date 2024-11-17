@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+<h2 style="margin-left: 5%; margin-right: 5%; margin-top: 15px; margin-bottom: 15px;">{{ post.title }}</h2>
+<img src="{% static 'images/posters_images/'|add:post.background_image %}" style="width: 100%;">
+<div style="margin-left: 10%; margin-right: 10%; margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between;">
+        <div style="flex: 1; margin-right: 20px;">
+            <p>Организатор: {{ post.creator }}</p>
+            <p>Место проведения: {{ post.place }}</p>
+            <p>Время проведения: {{ post.time_event }}</p>
+            <p style="font-weight: bold;">Дата и время: {{ post.time_event }}</p>
+            <p>Цена одного билета: <span style="color: green; font-size: 1.2em;">{{ post.price }} руб.</span></p>
+        </div>
+        <div style="flex: 1;">
+            <div style="position: relative; overflow: hidden;">
+                <a href="https://yandex.ru/maps/org/zvezda_klub/145504679558/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Звезда клуб</a>
+                <a href="https://yandex.ru/maps/51/samara/category/music_club/780928338/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Музыкальный клуб в Самаре</a>
+                <a href="https://yandex.ru/maps/51/samara/category/concert_hall/184105902/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:28px;">Концертный зал в Самаре</a>
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=50.146384%2C53.216405&mode=search&oid=145504679558&ol=biz&z=16.81" width="100%" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe>
+            </div>
+        </div>
+    </div>
+    <p style="font-size: 30px; margin-top: 20px;">{{ post.full_description }}</p>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" name="btn" value="Sing">
+    </form>
+</div>
+
+
+
+
+{% endblock body%}

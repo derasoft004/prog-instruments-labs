@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% for poster in posters %}
+    <section id="two" class="spotlights">
+        <section>
+
+            <a href="{{ poster.get_absolute_url }}" class="image">
+                <img src="{% static 'images/posters_images/'|add:poster.preview_image %}" alt="" data-position="center center" />
+            </a>
+            <div class="content">
+                <div class="inner">
+                    <header class="major">
+                        <h3>Организатор:  {{ poster.creator }}</h3>
+                    </header>
+                    <p>{{ poster.short_description }}</p>
+                    <p>Время проведения: {{ poster.time_event }}</p>
+                    <ul class="actions">
+                        <li><a href="{{ poster.get_absolute_url }}" class="button">Learn more</a></li>
+                    </ul>
+
+                </div>
+            </div>
+        </section>
+    </section>
+    {% endfor %}
+    <section id="three">
+        <div class="inner">
+            <header class="major">
+                <h2>Хотите создать свой праздник/сходку/тусовку?</h2>
+            </header>
+            <p>Создайте свое мероприятие в любом стиле и на любой вкус, пригласите кого захотите!</p>
+            <p>Не знаете что устроить? Оставьте заявку, модераторы помогут подобрать место, время и аудиторию для вашего мероприятия!</p>
+            <ul class="actions">
+                <li><a href="{% url 'poster_redactor' %}" class="button next">Создать свое мероприятие!</a></li>
+                <li><a href="{% url 'submit_application' %}" class="button next">Оставить заявку!</a></li>
+            </ul>
+        </div>
+    </section>
+<style>
+.spotlights section {
+    display: flex; /* Используем flexbox для расположения элементов */
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    margin-bottom: 20px; /* Отступ между секциями */
+    overflow: hidden; /* Скрыть переполнение */
+}
+
+.spotlights .image {
+    flex: 0 0 auto; /* Фиксированная ширина для изображения */
+}
+
+.spotlights .image img {
+    height: auto; /* Автоматическая высота для сохранения пропорций */
+    width: 100%; /* Ширина на 100% от родительского блока */
+    max-height: 300px; /* Максимальная высота для блока */
+    object-fit: cover; /* Заполнение блока, сохраняя пропорции */
+    transition: transform 0.3s ease; /* Плавный переход при увеличении */
+}
+
+.spotlights .image:hover img {
+    transform: scale(1.1); /* Увеличение изображения при наведении */
+}
+
+.spotlights .content {
+    margin-left: 20px; /* Отступ между изображением и текстом */
+    flex: 1; /* Текст занимает оставшееся пространство */
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение текста */
+    justify-content: center; /* Центрирование текста по вертикали */
+    text-align: left; /* Выравнивание текста вправо */
+}
+
+</style>
+
+{% endblock body %}

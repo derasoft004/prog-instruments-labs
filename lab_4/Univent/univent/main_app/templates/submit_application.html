@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<h3 style="display:block;margin-left: 15%;margin-top: 2%;margin-bottom: 2%; margin-right: 15%;">Отправьте нам заявку</h3>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div  style="display:block;margin-left: 15%; margin-right: 15%;">
+        <span>{{ form.as_p }}</span>
+        <p><button type="submit">Отправить</button></p>
+    </div>
+</form>
+{% endblock body %}
+
