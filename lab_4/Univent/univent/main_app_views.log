@@ -1,0 +1,20 @@
+2024-11-19 10:36:21,113 INFO User (not registered) requested (GET) index page
+2024-11-19 10:36:30,096 INFO User (not registered) requested (GET) Posters page
+2024-11-19 10:37:29,965 INFO User (not registered) requested (GET) poster page
+2024-11-19 10:37:34,678 ERROR User isn't registered yet.
+2024-11-19 10:37:34,683 INFO User (not registered) requested (GET) registration_page page
+2024-11-19 10:38:04,085 WARNING User tried to register with invalid parameters.
+2024-11-19 10:38:12,023 INFO User 'goodname1' was register successfully.
+2024-11-19 10:38:12,034 INFO User 'goodname1' successfully open his to personal account.
+2024-11-19 10:38:20,463 INFO User 'goodname1' requested (GET) poster_redactor page
+2024-11-19 10:38:45,072 INFO User 'goodname1'requested (POST) poster_redactor page
+2024-11-19 10:38:45,076 WARNING User 'goodname1' tried create event with invalid params.
+2024-11-19 10:38:45,077 ERROR User 'goodname1' failed to create a post.
+2024-11-19 10:38:55,462 INFO User 'goodname1' requested (GET) Posters page
+2024-11-19 10:38:59,412 INFO User 'goodname1' requested (POST) poster page
+2024-11-19 10:38:59,415 INFO User 'goodname1' successfully followed to post.
+2024-11-19 10:38:59,423 INFO User 'goodname1' successfully open his to personal account.
+2024-11-19 10:39:15,913 INFO User 'goodname1' requested (GET) Posters page
+2024-11-19 10:39:39,283 INFO User 'goodname1' requested (POST) submit_application page
+2024-11-19 10:39:39,286 INFO Application users 'goodname1' was submitted successfully.
+2024-11-19 10:39:39,296 INFO User 'goodname1' successfully open his to personal account.
